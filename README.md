@@ -159,3 +159,17 @@ Le projet peut être exécuté avec Docker sans utiliser XAMPP.
 
 ```bash
 docker compose up --build
+## Comptes de démonstration
+
+Après le lancement du projet avec Docker, il est possible de créer automatiquement des comptes de test avec la commande suivante :
+
+```bash
+docker compose exec backend npm run seed
+Email: admin@test.com
+Mot de passe: 123456
+Email: stagiaire@test.com
+Mot de passe: 123456
+Email: entreprise@test.com
+Mot de passe: 123456
+Email: formateur@test.com
+Mot de passe: 123456
