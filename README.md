@@ -147,3 +147,15 @@ gestion-stages-app/
 │   └── gestion_stages.sql
 │
 └── README.md
+## Exécution avec Docker
+
+Le projet peut être exécuté avec Docker sans utiliser XAMPP.
+
+### Prérequis
+
+- Docker Desktop installé et lancé
+
+### Lancer le projet
+
+```bash
+docker compose up --build
