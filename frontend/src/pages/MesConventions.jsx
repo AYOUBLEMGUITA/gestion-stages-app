@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 
@@ -12,7 +12,7 @@ function MesConventions() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  const fetchEntreprises = async () => {
+  const fetchEntreprises = useCallback(async () => {
     try {
       const res = await api.get("/conventions/entreprises", {
         headers: { Authorization: `Bearer ${token}` },
@@ -22,9 +22,9 @@ function MesConventions() {
     } catch (err) {
       setError("Impossible de charger les entreprises");
     }
-  };
+  }, [token]);
 
-  const fetchConventions = async () => {
+  const fetchConventions = useCallback(async () => {
     try {
       const res = await api.get("/conventions/mes-conventions", {
         headers: { Authorization: `Bearer ${token}` },
@@ -34,12 +34,12 @@ function MesConventions() {
     } catch (err) {
       setError("Impossible de charger vos conventions");
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     fetchEntreprises();
     fetchConventions();
-  }, []);
+  }, [fetchEntreprises, fetchConventions]);
 
   const createConvention = async (e) => {
     e.preventDefault();

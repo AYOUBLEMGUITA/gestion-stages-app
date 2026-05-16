@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 
@@ -22,7 +22,7 @@ function Messagerie() {
   const [contenu, setContenu] = useState("");
   const [error, setError] = useState("");
 
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     try {
       const res = await api.get("/messages/users", {
         headers: { Authorization: `Bearer ${token}` },
@@ -32,9 +32,9 @@ function Messagerie() {
     } catch (err) {
       setError("Impossible de charger les utilisateurs");
     }
-  };
+  }, [token]);
 
-  const fetchInbox = async () => {
+  const fetchInbox = useCallback(async () => {
     try {
       const res = await api.get("/messages/inbox", {
         headers: { Authorization: `Bearer ${token}` },
@@ -44,7 +44,7 @@ function Messagerie() {
     } catch (err) {
       console.log(err);
     }
-  };
+  }, [token]);
 
   const fetchConversation = async (otherUser) => {
     try {
@@ -64,7 +64,7 @@ function Messagerie() {
   useEffect(() => {
     fetchUsers();
     fetchInbox();
-  }, []);
+  }, [fetchUsers, fetchInbox]);
 
   const sendMessage = async (e) => {
     e.preventDefault();

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 
@@ -16,7 +16,7 @@ function MesRapports() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  const fetchRapports = async () => {
+  const fetchRapports = useCallback(async () => {
     try {
       const res = await api.get("/rapports/mes-rapports", {
         headers: { Authorization: `Bearer ${token}` },
@@ -26,11 +26,11 @@ function MesRapports() {
     } catch (err) {
       setError("Impossible de charger les rapports");
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     fetchRapports();
-  }, []);
+  }, [fetchRapports]);
 
   const handleChange = (e) => {
     if (e.target.name === "fichier") {

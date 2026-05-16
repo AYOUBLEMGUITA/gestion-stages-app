@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 
@@ -9,7 +9,7 @@ function Analytics() {
   const [stats, setStats] = useState(null);
   const [error, setError] = useState("");
 
-  const fetchAnalytics = async () => {
+  const fetchAnalytics = useCallback(async () => {
     try {
       const res = await api.get("/analytics", {
         headers: { Authorization: `Bearer ${token}` },
@@ -19,11 +19,11 @@ function Analytics() {
     } catch (err) {
       setError("Impossible de charger les statistiques");
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     fetchAnalytics();
-  }, []);
+  }, [fetchAnalytics]);
 
   const exportUsersCSV = async () => {
     try {

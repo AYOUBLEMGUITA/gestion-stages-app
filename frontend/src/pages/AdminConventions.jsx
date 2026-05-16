@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 
@@ -9,7 +9,7 @@ function AdminConventions() {
   const [conventions, setConventions] = useState([]);
   const [error, setError] = useState("");
 
-  const fetchConventions = async () => {
+  const fetchConventions = useCallback(async () => {
     try {
       const res = await api.get("/conventions/all", {
         headers: { Authorization: `Bearer ${token}` },
@@ -19,11 +19,11 @@ function AdminConventions() {
     } catch (err) {
       setError("Impossible de charger les conventions");
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     fetchConventions();
-  }, []);
+  }, [fetchConventions]);
 
   const updateStatus = async (id, statut) => {
     try {

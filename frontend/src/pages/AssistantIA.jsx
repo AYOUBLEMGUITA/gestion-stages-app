@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 
@@ -17,7 +17,7 @@ function AssistantIA() {
 
   const [recommendations, setRecommendations] = useState([]);
 
-  const fetchRecommendations = async () => {
+  const fetchRecommendations = useCallback(async () => {
     if (user?.role !== "stagiaire") return;
 
     try {
@@ -29,11 +29,11 @@ function AssistantIA() {
     } catch (err) {
       console.log("Aucune recommandation");
     }
-  };
+  }, [token, user?.role]);
 
   useEffect(() => {
     fetchRecommendations();
-  }, []);
+  }, [fetchRecommendations]);
 
   const sendMessage = async (e) => {
     e.preventDefault();

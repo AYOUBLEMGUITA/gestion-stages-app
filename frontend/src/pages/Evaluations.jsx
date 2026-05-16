@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 
@@ -26,7 +26,7 @@ function Evaluations() {
     commentaire: "",
   });
 
-  const fetchStagiairesAcceptes = async () => {
+  const fetchStagiairesAcceptes = useCallback(async () => {
     if (user?.role !== "entreprise") return;
 
     try {
@@ -38,9 +38,9 @@ function Evaluations() {
     } catch (err) {
       setError("Impossible de charger les stagiaires acceptés");
     }
-  };
+  }, [token, user?.role]);
 
-  const fetchEvaluations = async () => {
+  const fetchEvaluations = useCallback(async () => {
     try {
       const res = await api.get("/evaluations", {
         headers: { Authorization: `Bearer ${token}` },
@@ -50,12 +50,12 @@ function Evaluations() {
     } catch (err) {
       setError("Impossible de charger les évaluations");
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     fetchStagiairesAcceptes();
     fetchEvaluations();
-  }, []);
+  }, [fetchStagiairesAcceptes, fetchEvaluations]);
 
   const handleChange = (e) => {
     setForm({

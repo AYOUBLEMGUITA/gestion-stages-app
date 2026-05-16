@@ -102,7 +102,6 @@ function Dashboard() {
   onClick={() => navigate("/assistant-ia")}
   className="bg-violet-600 text-white px-4 py-2 rounded-lg hover:bg-violet-700"
 >
-  { label: "Assistant IA", path: "/assistant-ia" }
   Assistant IA
 </button>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">

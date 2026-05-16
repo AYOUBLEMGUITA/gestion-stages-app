@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 
@@ -18,7 +18,7 @@ function Calendrier() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  const fetchEvents = async () => {
+  const fetchEvents = useCallback(async () => {
     try {
       const res = await api.get("/calendrier", {
         headers: { Authorization: `Bearer ${token}` },
@@ -28,11 +28,11 @@ function Calendrier() {
     } catch (err) {
       setError("Impossible de charger le calendrier");
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     fetchEvents();
-  }, []);
+  }, [fetchEvents]);
 
   const handleChange = (e) => {
     setForm({
